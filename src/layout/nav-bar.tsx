@@ -325,39 +325,39 @@ const Navbar = () => {
               <h3 className="text-sm font-extralight mb-4">Explore Iphone</h3>
               
               <div className="space-y-2">
-  <ul className="flex flex-col space-y-4">
-    <li className="relative">
-    <Link href="/mac" className="text-md font-semibold hover:text-gray-100 inline-block group"
-          onMouseEnter={()=>handleHover(5)}>
-      Explore All Iphones
-    </Link>
-    </li>
-  </ul>
-  
-  <ul className="flex flex-col space-y-4">
-    <li className="relative">
-      <Link href="/macbook-air" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(6)}>
-        Iphone 15
-      </Link>
-    </li>
-  </ul>
-  
-  <ul className="flex flex-col space-y-4">
-    <li className="relative">
-      <Link href="/macbook-pro" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(7)}>
-      Iphone 15 pro
-      </Link>
-    </li>
-  </ul>
-  
-  <ul className="flex flex-col space-y-4">
-    <li className="relative">
-      <Link href="/imac" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(8)}>
-      Iphone 15 pro max
-      </Link>
-    </li>
-  </ul>
-</div>
+              <ul className="flex flex-col space-y-4">
+                <li className="relative">
+                <Link href="/mac" className="text-md font-semibold hover:text-gray-100 inline-block group"
+                      onMouseEnter={()=>handleHover(5)}>
+                  Explore All Iphones
+                </Link>
+                </li>
+              </ul>
+              
+              <ul className="flex flex-col space-y-4">
+                <li className="relative">
+                  <Link href="/macbook-air" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(6)}>
+                    Iphone 15
+                  </Link>
+                </li>
+              </ul>
+              
+              <ul className="flex flex-col space-y-4">
+                <li className="relative">
+                  <Link href="/macbook-pro" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(7)}>
+                  Iphone 15 pro
+                  </Link>
+                </li>
+              </ul>
+              
+              <ul className="flex flex-col space-y-4">
+                <li className="relative">
+                  <Link href="/imac" className="text-md font-semibold hover:text-gray-100 inline-block group" onMouseEnter={()=>handleHover(8)}>
+                  Iphone 15 pro max
+                  </Link>
+                </li>
+              </ul>
+            </div>
             </div>
           </NavItem>
 
