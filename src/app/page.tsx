@@ -1,186 +1,107 @@
-"use client";
-import * as React from 'react';
-import { Box, Button, Checkbox, Typography, Paper, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import React from 'react';
+import { Card, CardContent, CardHeader, Alert, AlertTitle, Typography } from '@mui/material';
+import { MapPin, ArrowRight } from 'lucide-react';
 
-interface Column {
-  field: string;
-  headerName: string;
-  width: string;
+interface FeatureCardProps {
+  title: string;
+  subtitle: string;
+  description: string;
+  features: { text: string }[];
 }
 
-interface Row {
-  id: number;
-  product: string;
-  price: string;
+interface FleetDashboardProps {
+  imageOnLeft?: boolean;
+  imageSrc?: string;
 }
 
-const columns: Column[] = [
-  { field: 'actions', headerName: 'Actions', width: '25%' },
-  { field: 'product', headerName: 'Product', width: '40%' },
-  { field: 'price', headerName: 'Price', width: '35%' },
-];
+const FleetDashboard = ({ imageOnLeft = false, imageSrc = "./image.png" }: FleetDashboardProps) => {
+  const ImageSection = () => (
+    <div className="w-full md:w-1/2 relative h-[610px] pt-20">
+      <div className="bg-green-800 w-[720px] h-[480px] overflow-hidden">
+        <img src={imageSrc} alt="Satellite view" className="w-full h-full object-cover" />
+      </div>
+      <div className="absolute bottom-4 right-20 w-64 h-48 text-center bg-white p-3 rounded-lg shadow-lg border-b border-gray-800">
+        <h3 className="font-bold text-black text-[20px] pt-1 mb-3">Route performance</h3>
+        <div className="flex items-center mb-2 pl-3 pt-1">
+          <span className="border border-green-500 rounded text-green-900 text-center font-semibold px-2 py-1 text-sm">ON TIME</span>
+          <span className="text-gray-600 text-center text-lg pl-2">ETA 12:37pm</span>
+        </div>
+        <ul className="text-sm text-gray-600 pl-3 pt-2.5">
+          <li className="flex items-center mb-3">
+            <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>Traffic jam avoided
+          </li>
+          <li className="flex items-center mb-3">
+            <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>Additional stop added
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 
-const rows: Row[] = [
-  { id: 1, product: 'iPhone 13', price: '$799' },
-  { id: 2, product: 'MacBook Air', price: '$999' },
-  { id: 3, product: 'iPad Pro', price: '$799' },
-  { id: 4, product: 'AirPods Pro', price: '$249' },
-  { id: 5, product: 'Apple Watch Series 7', price: '$399' },
-  { id: 6, product: 'Apple Watch Series 7', price: '$399' },
-];
+  const FeatureCard = ({ title, subtitle, description, features }: FeatureCardProps) => {
+    return (
+      <div className="bg-white rounded-xl h-[400px] p-6">
+        <div className="flex items-center text-blue-500 mb-2 text-left">
+          <MapPin className="w-6 h-6 mr-2" />
+          <Typography variant="subtitle1" className="uppercase font-bold">
+            {subtitle}
+          </Typography>
+        </div>
+        <Typography variant="h5" className="font-bold text-[35px] text-black mb-6">
+          {title}
+        </Typography>
+        <Typography className="text-gray-600 mb-8 text-md">
+          {description}
+        </Typography>
+        <ul className="space-y-2 text-blue-500 border-gray-300 pt-2">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-center hover:underline font-bold cursor-pointer mb-8 text-lg">
+              {feature.text} <ArrowRight className="w-4 h-4 ml-1" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
-interface GridViewProps {
-  columns: Column[];
-  rows: Row[];
-  onRowClick: (id: number) => void;
-  expandedRows: Set<number>;
-  selectedRows: Set<number>;
-  onRowSelect: (id: number | 'all') => void;
-  currentPage: number;
-  rowsPerPage: number;
-}
-
-const GridView: React.FC<GridViewProps> = ({ columns, rows, onRowClick, expandedRows, selectedRows, onRowSelect, currentPage, rowsPerPage }) => {
-  const startIdx = currentPage * rowsPerPage;
-  const endIdx = startIdx + rowsPerPage;
-  const paginatedRows = rows.slice(startIdx, endIdx);
+  const ContentSection = () => (
+    <div className={`w-full md:w-1/3 min-h-[470px] pt-16 pl-5 ${!imageOnLeft ? 'md:ml-auto' : ''}`}>
+      <FeatureCard
+        title="Optimize fleet operations with real-time data."
+        subtitle="Complete visibility"
+        description="Samsara's to-the-second GPS and vehicle diagnostics give you best-in-class visibility to improve route performance, fleet efficiency, and customer service."
+        features={[
+          { text: 'GPS fleet & trailer tracking' },
+          { text: 'Remote vehicle diagnostics' },
+        ]}
+      />
+      <ul className='border-t border-gray-800 shadow-inner pl-5'></ul>
+  
+      <Alert className="mt-4 bg-green-50 border-green-200 h-28 pl-5">
+        <AlertTitle className="font-semibold text-green-800 mb-6">99% ON-TIME DELIVERY</AlertTitle>
+        <div className="flex items-center">
+          <img src="/api/placeholder/24/24" alt="GP Transco logo" className="w-6 h-6 mr-2" />
+          <span className="text-green-700">GP TRANSCO</span>
+        </div>
+      </Alert>
+    </div>
+  );
 
   return (
-    <div className="grid-view">
-      <div className="grid-header" style={{ display: 'flex', backgroundColor: '#f0f0f0', padding: '8px 0' }}>
-        <div style={{ width: '5%' }}>
-          <Checkbox
-            checked={selectedRows.size === rows.length}
-            onChange={() => onRowSelect('all')}
-          />
-        </div>
-        {columns.map((column) => (
-          <div key={column.field} style={{ width: column.width }}>
-            {column.headerName}
-          </div>
-        ))}
-      </div>
-      {paginatedRows.map((row) => (
-        <div key={row.id} className="grid-row" style={{ display: 'flex', flexDirection: 'column', borderBottom: '1px solid #e0e0e0', padding: '8px 0' }}>
-          <div style={{ display: 'flex', width: '100%' }}>
-            <div style={{ width: '5%' }}>
-              <Checkbox
-                checked={selectedRows.has(row.id)}
-                onChange={() => onRowSelect(row.id)}
-              />
-            </div>
-            <div style={{ width: '25%' }}>
-              <Button
-                onClick={() => onRowClick(row.id)}
-                endIcon={<ArrowDropDownIcon />}
-                style={{ color: '#007bff', textTransform: 'uppercase' }}
-              >
-                {expandedRows.has(row.id) ? 'Hide Details' : 'Show Details'}
-              </Button>
-            </div>
-            <div style={{ width: '40%' }}>{row.product}</div>
-            <div style={{ width: '30%' }}>{row.price}</div>
-          </div>
-          {expandedRows.has(row.id) && (
-            <Box key={`detail-${row.id}`} className="bg-gray-50 p-4 mt-2">
-              <Typography>{`Product: ${row.product}`}</Typography>
-              <Typography>{`Price: ${row.price}`}</Typography>
-              <Typography>{`Can add more needed information here and here only.`}</Typography>
-            </Box>
-          )}
-        </div>
-      ))}
+    <div className="flex flex-col md:flex-row gap-6 p-6 bg-white">
+      {imageOnLeft ? (
+        <>
+          <ImageSection />
+          <ContentSection />
+        </>
+      ) : (
+        <>
+          <ContentSection />
+          <ImageSection />
+        </>
+      )}
     </div>
   );
 };
 
-export default function ControlMasterDetail() {
-  const [expandedRows, setExpandedRows] = React.useState<Set<number>>(new Set());
-  const [selectedRows, setSelectedRows] = React.useState<Set<number>>(new Set());
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleRowClick = (id: number) => {
-    setExpandedRows((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
-
-  const handleRowSelect = (id: number | 'all') => {
-    setSelectedRows((prev) => {
-      const newSet = new Set(prev);
-      if (id === 'all') {
-        if (newSet.size === rows.length) {
-          newSet.clear();
-        } else {
-          rows.forEach(row => newSet.add(row.id));
-        }
-      } else {
-        if (newSet.has(id)) {
-          newSet.delete(id);
-        } else {
-          newSet.add(id);
-        }
-      }
-      return newSet;
-    });
-  };
-
-  const handleChangeRowsPerPage = (event: SelectChangeEvent<number>) => {
-    setRowsPerPage(Number(event.target.value));
-    setCurrentPage(0); // Reset to first page when rows per page change
-  };
-
-  const handleChangePage = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
-  return (
-    <Box className="w-full max-w-4xl mx-auto p-5 pt-20 relative">
-      <Paper className="bg-white relative shadow-lg rounded-lg p-4">
-        <GridView
-          columns={columns}
-          rows={rows}
-          onRowClick={handleRowClick}
-          expandedRows={expandedRows}
-          selectedRows={selectedRows}
-          onRowSelect={handleRowSelect}
-          currentPage={currentPage}
-          rowsPerPage={rowsPerPage}
-        />
-        <Box className="flex justify-between mt-4">
-          <Select
-            value={rowsPerPage}
-            onChange={handleChangeRowsPerPage}
-            style={{ marginRight: '16px' }}
-          >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-          </Select>
-          <Box>
-            <Button
-              onClick={() => handleChangePage(currentPage - 1)}
-              disabled={currentPage === 0}
-            >
-              Previous
-            </Button>
-            <Button
-              onClick={() => handleChangePage(currentPage + 1)}
-              disabled={currentPage >= Math.ceil(rows.length / rowsPerPage) - 1}
-            >
-              Next
-            </Button>
-          </Box>
-        </Box>
-      </Paper>
-    </Box>
-  );
-}
+export default FleetDashboard;

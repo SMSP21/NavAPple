@@ -1,0 +1,238 @@
+"use client"
+import * as React from 'react';
+import { Box, Paper, Button, Typography, CardHeader, Card, CardContent, AlertTitle, Alert } from '@mui/material';
+import { DataGrid, GridColDef, GridRenderCellParams, GridPaginationModel, GridRowSelectionModel, GridCallbackDetails } from '@mui/x-data-grid';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { TrendingUp, Truck, MapPin } from 'lucide-react';
+
+
+
+
+
+// // // Define the structure of the row data
+// // interface Row {
+// //   id: number;
+// //   product: string;
+// //   price: string;
+// //   details: string;
+// // }
+
+// // // Sample data for the table
+// // const rows: Row[] = [
+// //   { id: 1, product: 'iPhone 13', price: '$799', details: 'Can add more needed information here and here only.' },
+// //   { id: 2, product: 'MacBook Air', price: '$999', details: 'Can add more needed information here and here only.' },
+// //   { id: 3, product: 'iPad Pro', price: '$799', details: 'Can add more needed information here and here only.' },
+// //   { id: 4, product: 'AirPods Pro', price: '$249', details: 'Can add more needed information here and here only.' },
+// //   { id: 5, product: 'Apple Watch Series 7', price: '$399', details: 'Can add more needed information here and here only.' },
+// //   { id: 6, product: 'Apple Watch Series 7', price: '$399', details: 'Can add more needed information here and here only.' },
+// // ];
+
+// // export default function ControlMasterDetail() {
+// //   // State to manage expanded rows
+// //   const [expandedRows, setExpandedRows] = React.useState<Set<number>>(new Set());
+
+// //   // State to manage pagination
+// //   const [paginationModel, setPaginationModel] = React.useState<GridPaginationModel>({
+// //     page: 0,
+// //     pageSize: 5,
+// //   });
+
+// //   const [totalItems, setTotalItems] = React.useState(rows.length);
+
+// //   // Handle row click to toggle detail view
+// //   const handleRowClick = (id: number) => {
+// //     setExpandedRows((prev) => {
+// //       const newSet = new Set(prev);
+// //       newSet.has(id) ? newSet.delete(id) : newSet.add(id);
+// //       return newSet;
+// //     });
+// //   };
+
+// //   // Handle pagination changes
+// //   const handlePaginationModelChange = (model: GridPaginationModel) => {
+// //     setPaginationModel(model);
+// //   };
+
+// //   // Handle row selection changes (currently not doing anything with selection)
+// //   const handleRowSelectionModelChange = (
+// //     rowSelectionModel: GridRowSelectionModel,
+// //     details: GridCallbackDetails<any>
+// //   ) => {
+// //     const selectedIds = rowSelectionModel.map((id) => Number(id));
+// //     // Implement any additional logic for row selection if needed
+// //   };
+
+// //   // Define columns for the DataGrid
+// //   const columns: GridColDef[] = [
+// //     {
+// //       field: 'actions',
+// //       headerName: 'Actions',
+// //       width: 150,
+// //       renderCell: (params: GridRenderCellParams) => (
+// //         <Box sx={{ position: 'relative', width: '100%' }}>
+// //           <Button
+// //             onClick={(event) => {
+// //               event.stopPropagation();
+// //               handleRowClick(params.id as number);
+// //             }}
+// //             endIcon={<ArrowDropDownIcon />}
+// //             sx={{ color: '#007bff', textTransform: 'uppercase' }}
+// //           >
+// //             {expandedRows.has(params.id as number) ? 'Hide Details' : 'View Details'}
+// //           </Button>
+// //           {expandedRows.has(params.id as number) && (
+// //             <Box sx={{
+// //               position: 'fixed',
+// //               top: '100%',
+// //               left: 0,
+// //               width: '100%',
+// //               backgroundColor: '#f0f0f0',
+// //               padding: 2,
+// //               zIndex: 1,
+// //               boxShadow: '0px 4px 10px rgba(0,0,0,0.5)',
+// //             }}>
+// //               <Typography>{`Product: ${rows.find(row => row.id === params.id)?.product}`}</Typography>
+// //               <Typography>{`Price: ${rows.find(row => row.id === params.id)?.price}`}</Typography>
+// //               <Typography>{rows.find(row => row.id === params.id)?.details}</Typography>
+// //             </Box>
+// //           )}
+// //         </Box>
+// //       ),
+// //     },
+// //     { field: 'product', headerName: 'Product', width: 200 },
+// //     { field: 'price', headerName: 'Price', width: 150 },
+// //   ];
+
+//   // return (
+    
+//   //   {/* <Box className="w-full max-w-4xl mx-auto p-5 pt-20 relative">
+//   //     <Paper className="bg-white relative shadow-lg rounded-lg p-4">
+//   //       <DataGrid
+//   //         columns={columns}
+//   //         rows={rows}
+//   //         pagination
+//   //         paginationMode="client"
+//   //         rowCount={totalItems}
+//   //         pageSizeOptions={[5, 10, 15, 20]}
+//   //         paginationModel={paginationModel}
+//   //         onPaginationModelChange={handlePaginationModelChange}
+//   //         getRowId={(row) => row.id}
+//   //         checkboxSelection
+//   //         onRowSelectionModelChange={handleRowSelectionModelChange}
+//   //         sx={{
+//   //           '& .MuiDataGrid-row': {
+//   //             marginBottom: 0,
+//   //           },
+//   //           '& .MuiDataGrid-cell': {
+//   //             paddingBottom: 1,
+//   //           },
+//   //         }}
+//   //       />
+//   //     </Paper>
+//   //     </Box> */}
+//   const YourComponent = () => {
+//     const [ref1, inView1] = useInView({
+//       triggerOnce: true,
+//       threshold: 0.5,
+//     });
+//     const [ref2, inView2] = useInView({
+//       triggerOnce: true,
+//       threshold: 0.5,
+//     });
+//     const [ref3, inView3] = useInView({
+//       triggerOnce: true,
+//       threshold: 0.5,
+//     });
+//     const [ref4, inView4] = useInView({
+//       triggerOnce: true,
+//       threshold: 0.5,
+//     });
+//     const [ref5, inView5] = useInView({
+//       triggerOnce: true,
+//       threshold: 0.5,
+//     });
+  
+//     return (
+// //       <div className='p-5 pt-20 relative min-h-screen bg-white md:pl-20 md:pr-20'>
+// //                 <div className="flex justify-between mt-4 gap-4">
+// //                 <motion.div
+// //     ref={ref1}
+// //     initial={{ opacity: 0, scale: 0.8 }}
+// //     animate={inView1 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+// //     transition={{ duration: 0.8, ease: "easeInOut" }}
+// //     className="w-1/2 h-[500px] p-2 bg-black"
+// //   >
+// //     Left Div 1
+// //   </motion.div>
+// //   <motion.div
+// //   ref={ref1}
+// //   initial={{ opacity: 0, scale: 1.2, x: 100 }}
+// //   animate={inView1 ? { opacity: 1, scale: 1, x: 0 } : { opacity: 0, scale: 1.2, x: 100 }}
+// //   transition={{ duration: 0.8, ease: "easeInOut" }}
+// //   className="w-1/2 h-[500px] p-2 bg-black"
+// // >
+// //   Right Div 1
+// // </motion.div>
+// //         </div>
+// //         <div className="flex justify-between pt-20 mt-4 gap-4">
+// //         <motion.div
+// //       ref={ref2}
+// //       initial={{ opacity: 0, y: -50, x: '-30%' }}
+// //       animate={inView2 ? { opacity: 1, y: 0, x: '0%' } : { opacity: 0, y: -50, x: '-30%' }}
+// //       transition={{ duration: 0.8, ease: "easeInOut" }}
+// //       className="w-1/2 h-[500px] p-2 bg-black"
+// //     >
+// //       Left Div 2
+// //     </motion.div>
+// //           <motion.div
+// //       ref={ref2}
+// //       initial={{ opacity: 0, y: -50, x: '30%' }}
+// //       animate={inView2 ? { opacity: 1, y: 0, x: '0%' } : { opacity: 0, y: -50, x: '30%' }}
+// //       transition={{ duration: 0.8, ease: "easeInOut" }}
+// //       className="w-1/2 h-[500px] p-2 bg-black"
+// //     >
+// //       Right Div 2
+// //     </motion.div>
+// //         </div>
+// //         <div>
+// //         <div className="flex justify-between pt-20 mt-4 gap-4">
+// //       <motion.div
+// //         ref={ref3}
+// //         initial={{ opacity: 0, y: 50, x: '-30%' }}
+// //         animate={inView3 ? { opacity: 1, y: 0, x: '0%' } : { opacity: 0, y: 50, x: '-30%' }}
+// //         transition={{ duration: 0.8, ease: "easeInOut" }}
+// //         className="w-1/2 h-[500px] p-2 bg-black"
+// //       >
+// //         Left Div 3
+// //       </motion.div>
+// //       <motion.div
+// //         ref={ref4}
+// //         initial={{ opacity: 0, y: 50, x: '30%' }}
+// //         animate={inView4 ? { opacity: 1, y: 0, x: '0%' } : { opacity: 0, y: 50, x: '30%' }}
+// //         transition={{ duration: 0.8, ease: "easeInOut" }}
+// //         className="w-1/2 h-[500px] p-2 bg-black"
+// //       >
+// //         Right Div 3
+// //       </motion.div>
+// //     </div>
+
+// //   <div className="flex justify-between pt-20 mt-4 gap-4 parent-container">
+// //   <motion.div
+// //     ref={ref5}
+// //     initial={{ opacity: 0, rotateX: 45, translateY: "50%" }}
+// //     animate={inView5 ? { opacity: 1, rotateX: 0, translateY: "0%" } : { opacity: 0, rotateX: 45, translateY: "50%" }}
+// //     transition={{ duration: 0.8, ease: "easeInOut" }}
+// //     className="w-full h-[500px] p-2 bg-black"
+// //     style={{ transformStyle: "preserve-3d" }}
+// //   >
+// //     Left Div 3
+// //   </motion.div>
+// // </div>
+// // </div>
+//      </div>
+//     );
+//   };
+  
+//   export default YourComponent;
